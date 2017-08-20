@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/chunza2542/javascript-shell-website-for-prank/issues"
   },
-  "homepage": "https://github.com/chunza2542/javascript-shell-website-for-prank#readme"
+  "homepage": "https://github.com/chunza2542/javascript-shell-website-for-prank#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "socket.io": "^2.0.3"
+  }
 }

@@ -14,4 +14,4 @@ io.on('connection', (socket) => {
     })
 })
 
-server.listen(process.env.PORT, () => console.log('running on port ' + process.env.PORT))
+server.listen(3000, () => console.log('> Application is running on port ' + 3000))
