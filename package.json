@@ -1,0 +1,19 @@
+{
+  "name": "javascript-shell-website-for-prank",
+  "version": "1.0.0",
+  "description": "A javascript shell website for pranking you friend using socket.io",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chunza2542/javascript-shell-website-for-prank.git"
+  },
+  "author": "Chun Rapeepat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chunza2542/javascript-shell-website-for-prank/issues"
+  },
+  "homepage": "https://github.com/chunza2542/javascript-shell-website-for-prank#readme"
+}
